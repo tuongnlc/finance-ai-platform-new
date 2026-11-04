@@ -4,4 +4,10 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "alembic>=1.20.1",
+    "databricks-sdk>=0.157.0",
+    "load-dotenv>=0.1.0",
+    "psycopg[binary]==3.2.3",
+    "sqlalchemy[asyncio]>=2.0.55",
+]
