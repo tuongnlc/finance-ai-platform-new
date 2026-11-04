@@ -1,0 +1,3 @@
+version: 1
+name: "backend-fastapi"
+description: "A backend FastAPI application to talk with lakebase"
