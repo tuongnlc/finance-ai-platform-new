@@ -19,7 +19,9 @@ load_dotenv()
 # --- Connection config (fill these in .env) ---
 ENDPOINT = os.getenv("LAKE_FLOW_ENDPOINT")  # Lakebase compute endpoint
 DATABRICKS_HOST = os.getenv("DATABRICKS_HOST")  # Databricks workspace host (used by the SDK)
-USERNAME = os.getenv("PGUSER")  # Postgres DB identity
+# Local: lấy PGUSER từ .env (email của bạn)
+# Trên app: PGUSER không set -> dùng DATABRICKS_CLIENT_ID do runtime inject
+USERNAME = os.getenv("PGUSER") or os.getenv("DATABRICKS_CLIENT_ID")
 DATABASE = "databricks_postgres"
 PORT = 5432
 
