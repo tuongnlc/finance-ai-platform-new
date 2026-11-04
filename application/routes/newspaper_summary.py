@@ -1,6 +1,5 @@
 from datetime import date
 from typing import Annotated, Optional
-from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
@@ -35,7 +34,7 @@ async def create_newspaper_summary(
 
 @router.get("/{summary_id}", status_code=200)
 async def get_newspaper_summary(
-        summary_id: UUID,
+        summary_id: str,
         newspaper_summary_service: Annotated[NewspaperSummaryService, Depends(get_newspaper_summary_service)],
     ) -> GetNewspaperSummaryResponse:
     summary = await newspaper_summary_service.get_by_id(summary_id)
@@ -84,14 +83,14 @@ async def list_newspaper_summaries(
 
 @router.delete("/{summary_id}", status_code=204)
 async def delete_newspaper_summary(
-        summary_id: UUID,
+        summary_id: str,
         newspaper_summary_service: Annotated[NewspaperSummaryService, Depends(get_newspaper_summary_service)],
     ) -> None:
     await newspaper_summary_service.delete_by_id(summary_id)
 
 @router.put("/{summary_id}", status_code=200)
 async def update_newspaper_summary(
-        summary_id: UUID,
+        summary_id: str,
         newspaper_summary_service: Annotated[NewspaperSummaryService, Depends(get_newspaper_summary_service)],
         is_favorite: Optional[int] = None,
     ) -> UpdateNewspaperSummaryResponse:

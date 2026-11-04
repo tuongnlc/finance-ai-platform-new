@@ -1,4 +1,3 @@
-import uuid
 from datetime import date
 from typing import Optional
 from sqlalchemy import select
@@ -19,7 +18,7 @@ class PostgresNewspaperSummaryRepository:
         await self._session.refresh(summary_orm)
         return self._to_domain(summary_orm)
 
-    async def get_by_id(self, summary_id: uuid.UUID) -> NewspaperSummary | None:
+    async def get_by_id(self, summary_id: str) -> NewspaperSummary | None:
         result = await self._session.execute(
             select(NewspaperSummaryORM).where(NewspaperSummaryORM.id == summary_id)
         )
@@ -42,7 +41,7 @@ class PostgresNewspaperSummaryRepository:
         summaries = result.scalars().all()
         return [self._to_domain(summary) for summary in summaries]
 
-    async def delete_by_id(self, summary_id: uuid.UUID) -> None:
+    async def delete_by_id(self, summary_id: str) -> None:
         result = await self._session.execute(
             select(NewspaperSummaryORM).where(NewspaperSummaryORM.id == summary_id)
         )
@@ -54,7 +53,7 @@ class PostgresNewspaperSummaryRepository:
 
     async def update_by_id(
         self,
-        summary_id: uuid.UUID,
+        summary_id: str,
         is_favorite: Optional[int] = None,
     ) -> NewspaperSummary:
         result = await self._session.execute(

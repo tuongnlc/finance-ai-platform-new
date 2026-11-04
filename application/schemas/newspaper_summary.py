@@ -1,12 +1,11 @@
 from datetime import date
 from pydantic import BaseModel
 from typing import Optional
-from uuid import UUID
 
 
 class CreateNewspaperSummaryRequest(BaseModel):
-    id: UUID
-    document_id: UUID
+    id: str
+    document_id: str
     newspaper_summary: str
     publish_date: Optional[date] = None
     stocks_mention: Optional[str] = None
@@ -21,12 +20,12 @@ class CreateNewspaperSummaryRequest(BaseModel):
 
 
 class CreateNewspaperSummaryResponse(BaseModel):
-    id: UUID
-    document_id: UUID
+    id: str
+    document_id: str
 
 class GetNewspaperSummaryResponse(BaseModel):
-    id: UUID
-    document_id: UUID
+    id: str
+    document_id: str
     newspaper_summary: str
     publish_date: Optional[date] = None
     stocks_mention: Optional[str] = None
@@ -41,9 +40,9 @@ class GetNewspaperSummaryResponse(BaseModel):
 
 
 class DeleteNewspaperSumResponse(BaseModel):
-    id: UUID
-    document_id: UUID
+    id: str
+    document_id: str
 
 class UpdateNewspaperSummaryResponse(BaseModel):
-    id: UUID
-    document_id: UUID
+    id: str
+    document_id: str
