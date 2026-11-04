@@ -1,0 +1,8 @@
+alembic>=1.20.1
+databricks-sdk>=0.157.0
+fastapi>=0.162.0
+load-dotenv>=0.1.0
+psycopg[binary]==3.2.3
+pydantic>=2.14.2
+sqlalchemy[asyncio]>=2.0.55
+uvicorn>=0.54.0
