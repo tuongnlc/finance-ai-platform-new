@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional
-import uuid
 from datetime import date
 
 
 @dataclass
 class NewspaperSummary:
-    id: uuid.UUID
-    document_id: uuid.UUID
+    id: str
+    document_id: str
     newspaper_summary: str
     publish_date: Optional[date] = None
     stocks_mention: Optional[str] = None

@@ -1,7 +1,6 @@
 import uuid
 from datetime import date
 from sqlalchemy import Date, Integer, String, Text
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 from infrastructure.database.orm_models.base import Base
 
@@ -12,13 +11,13 @@ class NewspaperSummaryORM(Base):
     """
     __tablename__ = 'newspaper_summary'
     __table_args__ = {"schema": "market_news"}
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    id: Mapped[str] = mapped_column(
+        Text,
         primary_key=True,
-        default=uuid.uuid4,
+        default=lambda: str(uuid.uuid4()),
     )
-    document_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+    document_id: Mapped[str] = mapped_column(
+        Text,
         nullable=False,
     )
     publish_date: Mapped[date] = mapped_column(Date, nullable=True, index=True)

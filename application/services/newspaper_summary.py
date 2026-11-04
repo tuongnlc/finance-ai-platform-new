@@ -1,4 +1,3 @@
-import uuid
 from datetime import date
 from typing import Optional
 from application.domain.repositories.newspaper_summary import NewspaperSummaryRepository
@@ -27,7 +26,7 @@ class NewspaperSummaryService:
         )
         return await self._newspaper_summary_repository.create(summary)
 
-    async def get_by_id(self, summary_id: uuid.UUID) -> NewspaperSummary:
+    async def get_by_id(self, summary_id: str) -> NewspaperSummary:
         return await self._newspaper_summary_repository.get_by_id(summary_id)
 
     async def list_summaries(
@@ -37,12 +36,12 @@ class NewspaperSummaryService:
     ) -> list[NewspaperSummary]:
         return await self._newspaper_summary_repository.list(min_date=min_date, max_date=max_date)
 
-    async def delete_by_id(self, summary_id: uuid.UUID) -> None:
+    async def delete_by_id(self, summary_id: str) -> None:
         return await self._newspaper_summary_repository.delete_by_id(summary_id)
 
     async def update_by_id(
         self,
-        summary_id: uuid.UUID,
+        summary_id: str,
         is_favorite: Optional[int] = None,
     ) -> NewspaperSummary:
         return await self._newspaper_summary_repository.update_by_id(summary_id, is_favorite=is_favorite)

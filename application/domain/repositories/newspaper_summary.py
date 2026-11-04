@@ -1,5 +1,4 @@
 from typing import Protocol, Optional
-import uuid
 from datetime import date
 from application.domain.models.newspaper_summary import NewspaperSummary
 
@@ -8,7 +7,7 @@ class NewspaperSummaryRepository(Protocol):
     async def create(self, summary: NewspaperSummary) -> NewspaperSummary:
         pass
 
-    async def get_by_id(self, summary_id: uuid.UUID) -> NewspaperSummary:
+    async def get_by_id(self, summary_id: str) -> NewspaperSummary:
         pass
 
     async def list(
@@ -18,12 +17,12 @@ class NewspaperSummaryRepository(Protocol):
     ) -> list[NewspaperSummary]:
         pass
 
-    async def delete_by_id(self, summary_id: uuid.UUID) -> None:
+    async def delete_by_id(self, summary_id: str) -> None:
         pass
 
     async def update_by_id(
         self,
-        summary_id: uuid.UUID,
+        summary_id: str,
         is_favorite: Optional[int] = None,
     ) -> NewspaperSummary:
         pass
