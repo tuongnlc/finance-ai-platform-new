@@ -8,5 +8,3 @@ command: [
 env:
   - name: LAKE_FLOW_ENDPOINT
     value: "projects/finance-2026/branches/production/endpoints/primary"
-  - name: PGUSER
-    value: nguyenlecattuong21@gmail.com
