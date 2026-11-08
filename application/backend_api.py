@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from application.routes import newspaper_summary
+from application.routes import newspaper_topic_tagging
 from infrastructure.database.session import dispose_engine
 
 
@@ -21,7 +21,7 @@ def create_chatbot_api():
         license_info={"name": "MIT License"},
         lifespan=lifespan,
     )
-    app.include_router(newspaper_summary.router)
+    app.include_router(newspaper_topic_tagging.router)
 
     return app
 
