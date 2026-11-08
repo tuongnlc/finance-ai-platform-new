@@ -1,7 +1,8 @@
+import re
 from datetime import date
 from typing import Annotated, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from application.dependencies import (
     get_newspaper_topic_tagging_service,
@@ -18,6 +19,13 @@ from application.services.newspaper_topic_tagging import (
 )
 
 router = APIRouter(prefix="/newspaper-topic-tagging", tags=["NewspaperTopicTagging"])
+
+# Reverse proxies (Databricks Apps) collapse the "//" after the scheme into a single "/",
+# turning "https://host/path" into "https:/host/path". Restore it before matching the DB.
+_COLLAPSED_SCHEME = re.compile(r"^(https?):/(?!/)")
+
+def _normalize_newspaper_url(newspaper_url: str) -> str:
+    return _COLLAPSED_SCHEME.sub(r"\1://", newspaper_url, count=1)
 
 
 @router.post("/", status_code=201)
@@ -67,7 +75,13 @@ async def get_newspaper_topic_tagging(
         newspaper_url: str,
         newspaper_topic_tagging_service: Annotated[NewspaperTopicTaggingService, Depends(get_newspaper_topic_tagging_service)],
     ) -> GetNewspaperTopicTaggingResponse:
-    newspaper_topic_tagging = await newspaper_topic_tagging_service.get_by_id(newspaper_url)
+    newspaper_url = _normalize_newspaper_url(newspaper_url)
+    newspaper_topic_tagging = await newspaper_topic_tagging_service.get_by_newspaper_url(newspaper_url)
+    if newspaper_topic_tagging is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"NewspaperTopicTagging with newspaper_url {newspaper_url} not found",
+        )
     return GetNewspaperTopicTaggingResponse(
         newspaper_title=newspaper_topic_tagging.newspaper_title,
         newspaper_url=newspaper_topic_tagging.newspaper_url,
@@ -80,20 +94,19 @@ async def get_newspaper_topic_tagging(
         sentiment_analysis=newspaper_topic_tagging.sentiment_analysis,
     )
 
-
 @router.delete("/{newspaper_url:path}", status_code=204)
 async def delete_newspaper_topic_tagging(
         newspaper_url: str,
         newspaper_topic_tagging_service: Annotated[NewspaperTopicTaggingService, Depends(get_newspaper_topic_tagging_service)],
     ) -> None:
-    await newspaper_topic_tagging_service.delete_by_id(newspaper_url)
+    await newspaper_topic_tagging_service.delete_by_newspaper_url(_normalize_newspaper_url(newspaper_url))
 
 @router.put("/{newspaper_url:path}", status_code=200)
 async def update_newspaper_topic_tagging(
         newspaper_url: str,
         newspaper_topic_tagging_service: Annotated[NewspaperTopicTaggingService, Depends(get_newspaper_topic_tagging_service)],
     ) -> UpdateNewspaperTopicTaggingResponse:
-    newspaper_topic_tagging = await newspaper_topic_tagging_service.update_by_id(newspaper_url)
+    newspaper_topic_tagging = await newspaper_topic_tagging_service.update_by_newspaper_url(_normalize_newspaper_url(newspaper_url))
     return UpdateNewspaperTopicTaggingResponse(
         newspaper_title=newspaper_topic_tagging.newspaper_title,
         newspaper_url=newspaper_topic_tagging.newspaper_url,

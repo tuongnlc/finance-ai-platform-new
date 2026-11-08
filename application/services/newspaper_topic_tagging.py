@@ -22,8 +22,8 @@ class NewspaperTopicTaggingService:
         )
         return await self._newspaper_topic_tagging_repository.create(newspaper_topic_tagging)
 
-    async def get_by_id(self, newspaper_url: str) -> NewspaperTopicTagging:
-        return await self._newspaper_topic_tagging_repository.get_by_id(newspaper_url)
+    async def get_by_newspaper_url(self, newspaper_url: str) -> NewspaperTopicTagging:
+        return await self._newspaper_topic_tagging_repository.get_by_newspaper_url(newspaper_url)
 
     async def list(
         self,
@@ -32,10 +32,10 @@ class NewspaperTopicTaggingService:
     ) -> list[NewspaperTopicTagging]:
         return await self._newspaper_topic_tagging_repository.list(min_date=min_date, max_date=max_date)
 
-    async def delete_by_id(self, newspaper_url: str) -> None:
-        return await self._newspaper_topic_tagging_repository.delete_by_id(newspaper_url)
+    async def delete_by_newspaper_url(self, newspaper_url: str) -> None:
+        return await self._newspaper_topic_tagging_repository.delete_by_newspaper_url(newspaper_url)
 
-    async def update_by_id(
+    async def update_by_newspaper_url(
         self,
         newspaper_url: str,
     ) -> NewspaperTopicTagging:
