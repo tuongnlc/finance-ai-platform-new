@@ -39,4 +39,4 @@ class NewspaperTopicTaggingService:
         self,
         newspaper_url: str,
     ) -> NewspaperTopicTagging:
-        return await self._newspaper_topic_tagging_repository.update_by_id(newspaper_url)
+        return await self._newspaper_topic_tagging_repository.update_by_newspaper_url(newspaper_url)

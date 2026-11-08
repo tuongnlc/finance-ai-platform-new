@@ -18,7 +18,7 @@ class PostgresNewspaperTopicTaggingRepository:
         await self._session.refresh(newspaper_topic_tagging_orm)
         return self._to_domain(newspaper_topic_tagging_orm)
 
-    async def get_by_id(self, newspaper_url: str) -> NewspaperTopicTagging | None:
+    async def get_by_newspaper_url(self, newspaper_url: str) -> NewspaperTopicTagging | None:
         result = await self._session.execute(
             select(NewspaperTopicTaggingORM).where(NewspaperTopicTaggingORM.newspaper_url == newspaper_url)
         )
@@ -41,7 +41,7 @@ class PostgresNewspaperTopicTaggingRepository:
         newspaper_topic_tagging_orms = result.scalars().all()
         return [self._to_domain(newspaper_topic_tagging_orm) for newspaper_topic_tagging_orm in newspaper_topic_tagging_orms]
 
-    async def delete_by_id(self, newspaper_url: str) -> None:
+    async def delete_by_newspaper_url(self, newspaper_url: str) -> None:
         result = await self._session.execute(
             select(NewspaperTopicTaggingORM).where(NewspaperTopicTaggingORM.newspaper_url == newspaper_url)
         )
@@ -51,7 +51,7 @@ class PostgresNewspaperTopicTaggingRepository:
         await self._session.delete(newspaper_topic_tagging_orm)
         await self._session.flush()
 
-    async def update_by_id(
+    async def update_by_newspaper_url(
         self,
         newspaper_url: str,
     ) -> NewspaperTopicTagging:
